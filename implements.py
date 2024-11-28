@@ -74,6 +74,12 @@ class Ball(Basic):
         pygame.draw.ellipse(surface, self.color, self.rect)
 
     def collide_block(self, blocks: list):   
+        for block in blocks:
+            if self.rect.colliderect(block.rect):  # 공과 블록의 충돌 확인
+                block.collide()  
+                self.reflect(block)  
+                blocks.remove(block)  
+                break  
         pass
 
     def collide_paddle(self, paddle: Paddle) -> None:
