@@ -100,4 +100,12 @@ class Ball(Basic):
         pass
     
     def alive(self): 
+        if self.rect.bottom >= 800:  
+            if self.life > 1:
+                self.life -= 1  
+                ball_pos = (300, 385)
+                return True  
+            else:
+                return False  
+        return True  
         pass
