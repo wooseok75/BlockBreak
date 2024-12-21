@@ -79,8 +79,11 @@ class Ball(Basic):
                 block.collide()  
                 self.reflect(block)  
                 blocks.remove(block)  
-                break  
-        pass
+
+                # 아이템 떨어뜨리기
+                self.drop_item(block)
+
+                break
 
     def collide_paddle(self, paddle: Paddle) -> None:
         if self.rect.colliderect(paddle.rect):
@@ -109,3 +112,29 @@ class Ball(Basic):
                 return False  
         return True  
         pass
+
+    def drop_item(self, block: Block):
+        """블록을 부술 때 20% 확률로 빨간 공 또는 파란 공 아이템을 떨어뜨리기"""
+        if random.random() < 0.2:  # 20% 확률로 아이템 떨어짐
+            item_color = random.choice([(255, 0, 0), (0, 0, 255)])  # 빨간 공 (255, 0, 0) 또는 파란 공 (0, 0, 255)
+            item = Item(item_color, (block.rect.centerx, block.rect.centery))
+            config.ITEMS.append(item)  # 아이템을 config.ITEMS에 추가
+
+class Item(Basic):
+    def __init__(self, color: tuple, pos: tuple = (0, 0)):
+        # 아이템 클래스, 공이 떨어지는 효과를 구현
+        super().__init__(color, 0, pos, config.item_size)
+
+    def draw(self, surface):
+        # 아이템을 화면에 그리기
+        pygame.draw.ellipse(surface, self.color, self.rect)
+
+    def move(self):
+        # 아이템이 아래로 떨어지게
+        self.rect.move_ip(0, 5)
+        
+    def collision_with_paddle(self, paddle: Paddle):
+        """아이템이 paddle에 닿았을 때 처리하는 함수"""
+        if self.rect.colliderect(paddle.rect):
+
+            config.ITEMS.remove(self)  # 아이템이 먹혔으므로 삭제
