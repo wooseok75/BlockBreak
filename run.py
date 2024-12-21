@@ -69,6 +69,10 @@ def tick():
         if ball.alive() == False:
             BALLS.remove(ball)
 
+    for item in config.ITEMS:
+        item.move()
+        item.collision_with_paddle(paddle)
+    
 
 def main():
     global life
@@ -116,6 +120,11 @@ def main():
                 ball.draw(surface)
             for block in BLOCKS:
                 block.draw(surface)
+
+            # 아이템을 화면에 그리기
+            for item in config.ITEMS:
+                item.move()  # 아이템을 떨어지게 이동
+                item.draw(surface)            
 
         pygame.display.update()
         fps_clock.tick(config.fps)
