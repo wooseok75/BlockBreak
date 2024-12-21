@@ -30,7 +30,7 @@ class Block(Basic):
         self.pos = pos
         self.alive = alive
         self.hit_count = 0  # 블록이 부딪힌 횟수
-        
+
     def draw(self, surface) -> None:
         pygame.draw.rect(surface, self.color, self.rect)
     
@@ -90,7 +90,6 @@ class Ball(Basic):
                     blocks.remove(block)
                     # 아이템 떨어뜨리기
                     self.drop_item(block)
-
 
                 break
 
