@@ -76,12 +76,13 @@ class Ball(Basic):
     def collide_block(self, blocks: list):   
         for block in blocks:
             if self.rect.colliderect(block.rect):  # 공과 블록의 충돌 확인
-                block.collide()  
-                self.reflect(block)  
-                blocks.remove(block)  
+                block.collide()  # 충돌 시 블록 상태 변경
+                self.reflect(block)  # 공 반사
+                if not block.alive:  # 블록이 사라지면 리스트에서 제거
+                    blocks.remove(block)
+                    # 아이템 떨어뜨리기
+                    self.drop_item(block)
 
-                # 아이템 떨어뜨리기
-                self.drop_item(block)
 
                 break
 
