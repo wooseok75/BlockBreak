@@ -70,11 +70,12 @@ def tick():
         ball.hit_wall()
         if ball.alive() == False:
             BALLS.remove(ball)
-
+            
+        # 아이템이 paddle과 충돌하는지 확인
     for item in config.ITEMS:
         item.move()
         item.collision_with_paddle(paddle)
-    
+
 
 def main():
     global life

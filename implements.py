@@ -36,15 +36,14 @@ class Block(Basic):
     
     def collide(self):
         """블록이 공에 부딪혔을 때 색상 변경 및 블록 상태 갱신"""
-        self.hit_count += 1
-        if self.hit_count == 1:
-            self.color = (255, 0, 0)  # 빨간색
-        elif self.hit_count == 2:
-            self.color = (255, 165, 0)  # 주황색
-        elif self.hit_count == 3:
-            self.color = (255, 255, 0) # 노란색
-        elif self.hit_count >= 4:
-            self.alive = False  # 세 번째 충돌 이후 블록 사라짐
+        if self.color == (169, 169, 169):  # 회색 블록
+            self.color = (255, 0, 0)  # 빨간색으로 변경
+        elif self.color == (255, 0, 0): # 빨간색 블록
+            self.color = (255, 165, 0)  # 주황색 블록으로 변경
+        elif self.color == (255, 165, 0):  # 주황색 블록
+            self.color = (255, 255, 0)  # 노란색으로 변경
+        elif self.color == (255, 255, 0):  # 노란색 블록
+            self.alive = False  # 노란색에서 부딪히면 사라짐
 
 class Paddle(Basic):
     def __init__(self):
@@ -140,9 +139,12 @@ class Item(Basic):
     def move(self):
         # 아이템이 아래로 떨어지게
         self.rect.move_ip(0, 5)
-        
+
     def collision_with_paddle(self, paddle: Paddle):
         """아이템이 paddle에 닿았을 때 처리하는 함수"""
         if self.rect.colliderect(paddle.rect):
-
+            if self.color == (255, 0, 0):  # 빨간 공 아이템
+                # 새로운 공을 발사
+                new_ball = Ball((paddle.rect.centerx, paddle.rect.top - 20))  # paddle 위에서 새로운 공을 발사
+                config.BALLS.append(new_ball)  # BALLS 리스트에 새로운 공 추가
             config.ITEMS.remove(self)  # 아이템이 먹혔으므로 삭제
