@@ -1,6 +1,7 @@
 import sys
 from implements import Basic, Block, Paddle, Ball
 import config
+import random
 
 import pygame
 from pygame.locals import QUIT, Rect, K_ESCAPE, K_SPACE
@@ -22,6 +23,7 @@ start = False
 
 
 def create_blocks():
+    colors = [(255, 0, 0), (255, 165, 0), (255, 255, 0), (169, 169, 169)]  # 빨강, 주황, 노랑, 회색
     for i in range(config.num_blocks[0]):
         for j in range(config.num_blocks[1]):
             x = config.margin[0] + i * (config.block_size[0] + config.spacing[0])
@@ -30,8 +32,8 @@ def create_blocks():
                 + config.scoreboard_height
                 + j * (config.block_size[1] + config.spacing[1])
             )
-            color_index = j % len(config.colors)
-            color = config.colors[color_index]
+            # 노란색, 주황색, 빨간색, 회색 중에서 랜덤으로 색상 선택
+            color = random.choice([(255, 0, 0), (255, 165, 0), (255, 255, 0), (169, 169, 169)])
             block = Block(color, (x, y))
             BLOCKS.append(block)
 

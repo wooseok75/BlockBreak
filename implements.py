@@ -29,14 +29,22 @@ class Block(Basic):
         super().__init__(color, 0, pos, config.block_size)
         self.pos = pos
         self.alive = alive
-
+        self.hit_count = 0  # 블록이 부딪힌 횟수
+        
     def draw(self, surface) -> None:
         pygame.draw.rect(surface, self.color, self.rect)
     
     def collide(self):
-        self.alive = False
-        pass
-
+        """블록이 공에 부딪혔을 때 색상 변경 및 블록 상태 갱신"""
+        self.hit_count += 1
+        if self.hit_count == 1:
+            self.color = (255, 0, 0)  # 빨간색
+        elif self.hit_count == 2:
+            self.color = (255, 165, 0)  # 주황색
+        elif self.hit_count == 3:
+            self.color = (255, 255, 0) # 노란색
+        elif self.hit_count >= 4:
+            self.alive = False  # 세 번째 충돌 이후 블록 사라짐
 
 class Paddle(Basic):
     def __init__(self):
